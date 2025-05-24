@@ -12,4 +12,6 @@
   home.file.".config/hypr/hyprpaper.conf".source = ./hyprland/hyprpaper.conf;
   home.file.".config/hypr/hypridle.conf".source = ./hyprland/hypridle.conf;
   home.file.".config/scripts/scrolling-mpris.py".source = ./scripts/scrolling-mpris.py;
+  home.file.".config/waybar/config.jsonc".source = ./waybar/config.jsonc;
+  home.file.".config/waybar/style.css".source = ./waybar/style.css;
 }

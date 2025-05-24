@@ -1,0 +1,83 @@
+{
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock", "idle_inhibitor"],
+    "modules-right": ["custom/mpris", "tray", "pulseaudio", "hyprland/language", "custom/power"],
+    "hyprland/language": {
+        "format-en": "en",
+        "format-es": "es"
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname} ",
+        "format-disconnected": "", 
+        "max-length": 50,
+        "on-click": "alacritty -e 'nmtui'"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": " ",
+            "deactivated": " "
+        }
+    },
+    "tray": {
+        "icon-size": 15,
+        "spacing": 10
+    },
+    "clock": {
+        "tooltip-format": "<tt>{calendar}</tt>",
+		"on-click": "gnome-calendar",
+        "calendar": {
+            "format": {
+                "today": "<span color='#fabd2f'><b>{}</b></span>"
+            }
+        }
+    },
+    "pulseaudio": {
+        "format": "{volume}% {icon} ",
+        "format-bluetooth": "{volume}% {icon}  {format_source}",
+        "format-bluetooth-muted": " {icon}  {format_source}",
+        "format-muted": "0% {icon} ",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+	"custom/power": {
+		"format": " ",
+		"on-click": "wlogout"
+	},
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1": "一",
+            "2": "二",
+            "3": "三",
+            "4": "四",
+            "5": "五",
+            "6": "六",
+            "7": "七"
+        }
+    },
+    "custom/mpris": {
+		"exec": "python3 -u ~/.config/scripts/scrolling-mpris.py",
+		"format": "{text}",
+		"return-type": "json",
+		"on-click": "playerctl play-pause"
+	},
+    "custom/waybar-mpris": {
+        "return-type": "json",
+        "exec": "waybar-mpris --position --autofocus --play  --pause ",
+        "on-click": "waybar-mpris --send toggle",
+        "on-click-right": "waybar-mpris --send player-next",
+        "escape": true
+    }
+}
