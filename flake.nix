@@ -36,40 +36,40 @@
       url = "git+ssh://git@gitlab.com/FullOvellas/nix_secrets.git?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
   outputs =
-    {
+    inputs@{
       nixpkgs,
-      home-manager,
       nixpkgs-stable,
-      zen-browser,
-      rose-pine-hyprcursor,
-      nix-vscode-extensions,
-      jujutsu,
-      starship-jj,
-      neorg-overlay,
       secrets,
+      home-manager,
+      neorg-overlay,
+      treefmt-nix,
+      self,
+      systems,
       ...
     }:
+    let
+      # Small tool to iterate over each systems
+      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+
+      # Eval the treefmt modules from ./treefmt.nix
+      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+    in
     {
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
+            inherit inputs;
             pkgs-stable = import nixpkgs-stable {
               inherit system;
               config.allowUnfree = true;
             };
-            inherit nixpkgs;
-            inherit nix-vscode-extensions;
-            inherit rose-pine-hyprcursor;
-            inherit zen-browser;
-            inherit home-manager;
-            inherit jujutsu;
-            inherit starship-jj;
-            inherit secrets;
           };
+
           modules = [
             ./configuration.nix
             home-manager.nixosModules.home-manager
@@ -97,9 +97,16 @@
 
             buildInputs = [
               pkgs.nixfmt-rfc-style
+              pkgs.treefmt
               pkgs.nushell
             ];
           };
       };
+      # for `nix fmt`
+      formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
+      # for `nix flake check`
+      checks = eachSystem (pkgs: {
+        formatting = treefmtEval.${pkgs.system}.config.build.check self;
+      });
     };
 }

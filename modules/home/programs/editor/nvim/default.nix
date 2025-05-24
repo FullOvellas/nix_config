@@ -29,6 +29,6 @@
       neorg-telescope
       parinfer-rust
     ];
-    extraLuaConfig = builtins.readFile nvim/init.lua;
+    extraLuaConfig = builtins.readFile ./init.lua;
   };
 }

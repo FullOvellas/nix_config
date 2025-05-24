@@ -1,10 +1,15 @@
-{ pkgs, specialArgs, ... }:
+{
+  pkgs,
+  pkgs-stable,
+  inputs,
+  ...
+}:
 {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
     let
-      vscodiumExtensions = specialArgs.nix-vscode-extensions.extensions."x86_64-linux";
+      vscodiumExtensions = inputs.nix-vscode-extensions.extensions."x86_64-linux";
       python = pkgs.python3.withPackages (python-pkgs: [
         python-pkgs.python-lsp-server
       ]);
@@ -26,20 +31,21 @@
     [
       nil
       git
-      specialArgs.jujutsu.packages.${system}.default
+      inputs.jujutsu.packages.${system}.default
       wget
       curl
       filezilla
       vlc
       bc # gnu calculator
       bat
-      specialArgs.starship-jj.packages.${system}.default
+      inputs.starship-jj.packages.${system}.default
+      nix-output-monitor
       #rclone
       tor-browser-bundle-bin
       transmission_4
       unzip
       ytdownloader
-      specialArgs.pkgs-stable.protonvpn-gui
+      pkgs-stable.protonvpn-gui
       protonmail-desktop
       syncthing
       obs-studio
@@ -49,7 +55,7 @@
       # messaging
       signal-desktop
       # browsers
-      specialArgs.zen-browser.packages.${system}.default
+      inputs.zen-browser.packages.${system}.default
       chromium
       # dev
       #vscodium
@@ -61,7 +67,7 @@
       ## Python
       python
       ## java
-      #[use this if unstable breaks] specialArgs.pkgs-stable.jetbrains.idea-community
+      #[use this if unstable breaks] inputs.pkgs-stable.jetbrains.idea-community
       jetbrains.idea-community
       temurin-bin-21
       jdk8

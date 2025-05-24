@@ -5,8 +5,8 @@
     username = "fullovellas";
     homeDirectory = "/home/fullovellas";
     sessionVariables = {
-      "EDITOR" = "nvim";
-      "TERMINAL" = "alacritty";
+      EDITOR = "nvim";
+      TERMINAL = "alacritty";
     };
     packages = with pkgs; [
       nnn # terminal file manager
