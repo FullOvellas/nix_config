@@ -5,7 +5,7 @@
   config,
   lib,
   modulesPath,
-  specialArgs,
+  inputs,
   ...
 }:
 
@@ -25,12 +25,12 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = specialArgs.secrets.secrets.rootDevice;
+    device = inputs.secrets.secrets.rootDevice;
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = specialArgs.secrets.secrets.bootDevice;
+    device = inputs.secrets.secrets.bootDevice;
     fsType = "vfat";
   };
 
