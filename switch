@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+sudo -v
 
 nix fmt
 
 git --no-pager diff
 
 run() {
-    nixos-rebuild \
+    sudo nixos-rebuild \
         switch \
-        --use-remote-sudo \
         --print-build-logs \
         --flake .# \
         "$@"
