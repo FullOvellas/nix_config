@@ -29,9 +29,6 @@ through nixpkgs configurations.
 
 ## Secret management
 
-Something like [sops-nix](https://github.com/Mic92/sops-nix) is probably overkill for this, so in order to maintain
-some details private I used the somewhat hacky approach of having a flake with my secrets hosted on a private
-repository as an input to improve purity of evaluation. This means you can't use this flake out of the box without
-stealing my credentials, but please don't do that! You will have to provide your own secrets or refactor the code a bit
-to not use any.
+This uses [sops-nix](https://github.com/Mic92/sops-nix) for a couple details I wanted to keep private.
 
+At this point it's almost superfluous, but the skeleton for more secrets is there now.

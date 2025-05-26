@@ -5,10 +5,8 @@
   config,
   lib,
   modulesPath,
-  inputs,
   ...
 }:
-
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -25,12 +23,12 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = inputs.secrets.secrets.rootDevice;
+    device = "/dev/disk/by-uuid/0bd41b11-a207-445d-9f09-576552704402";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = inputs.secrets.secrets.bootDevice;
+    device = "/dev/disk/by-uuid/DE7C-34E1";
     fsType = "vfat";
   };
 

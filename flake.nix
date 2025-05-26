@@ -32,23 +32,33 @@
       url = "github:nvim-neorg/nixpkgs-neorg-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    secrets = {
-      url = "git+ssh://git@gitlab.com/FullOvellas/nix_secrets.git?ref=main";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    sops-nix.url = "github:Mic92/sops-nix";
+    alacritty-theme = {
+      url = "github:alacritty/alacritty-theme";
+      flake = false;
+    };
+    nixvim = {
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    treefmt-nix.url = "github:numtide/treefmt-nix";
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     inputs@{
       nixpkgs,
       nixpkgs-stable,
-      secrets,
       home-manager,
       neorg-overlay,
       treefmt-nix,
       self,
       systems,
+      sops-nix,
+      nvf,
       ...
     }:
     let
@@ -72,6 +82,7 @@
 
           modules = [
             ./configuration.nix
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               nixpkgs.overlays = [ neorg-overlay.overlays.default ];
@@ -79,28 +90,13 @@
               home-manager.useUserPackages = true;
               home-manager.users.fullovellas = (import ./home.nix);
               home-manager.backupFileExtension = "backup";
-              home-manager.extraSpecialArgs = { inherit secrets; };
+              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.sharedModules = [
+                sops-nix.homeManagerModules.sops
+              ];
             }
           ];
         };
-      };
-      devShells = {
-        x86_64-linux.default =
-          let
-            pkgs = import nixpkgs {
-              system = "x86_64-linux";
-              config.allowUnfree = true;
-            };
-          in
-          pkgs.mkShell {
-            name = "flake editing shell";
-
-            buildInputs = [
-              pkgs.nixfmt-rfc-style
-              pkgs.treefmt
-              pkgs.nushell
-            ];
-          };
       };
       # for `nix fmt`
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
