@@ -9,66 +9,34 @@
   # $ nix search wget
   environment.systemPackages =
     let
-      vscodiumExtensions = inputs.nix-vscode-extensions.extensions."x86_64-linux";
       python = pkgs.python3.withPackages (python-pkgs: [
         python-pkgs.python-lsp-server
       ]);
-      retroarchWithCores = (
-        pkgs.retroarch.withCores (
-          cores: with cores; [
-            beetle-pce
-            bsnes
-            gpsp
-            melonds
-            mgba
-            snes9x
-            swanstation
-          ]
-        )
-      );
     in
     with pkgs;
     [
+      # system tools
+      ethtool
+      pciutils # lspci
+      usbutils # lsusb
       nil
       git
       inputs.jujutsu.packages.${system}.default
       wget
       curl
-      filezilla
-      vlc
       bc # gnu calculator
       bat
       inputs.starship-jj.packages.${system}.default
       nix-output-monitor
       #rclone
-      tor-browser-bundle-bin
-      transmission_4
       unzip
-      ytdownloader
       pkgs-stable.protonvpn-gui
-      protonmail-desktop
-      syncthing
-      obs-studio
-      # productivity
-      obsidian
-      foliate
-      # messaging
-      signal-desktop
-      # browsers
-      inputs.zen-browser.packages.${system}.default
-      chromium
       # dev
       #vscodium
-      (vscode-with-extensions.override {
-        vscode = vscodium;
-        vscodeExtensions = with vscodiumExtensions; [
-        ];
-      })
       ## Python
       python
       ## java
       #[use this if unstable breaks] inputs.pkgs-stable.jetbrains.idea-community
-      jetbrains.idea-community
       temurin-bin-21
       jdk8
       jdt-language-server
@@ -78,7 +46,6 @@
       typescript-language-server
       ## lua
       lua-language-server
-      insomnia
       gcc
       llvmPackages.bintools
       ## rust
@@ -91,38 +58,6 @@
       # theming
       # sound
       pavucontrol
-      #hyprland
-      hyprpaper
-      grim # screenshots
-      slurp # screenshot region selector
-      swappy # screenshot edit
-      hypridle
-      hyprland-qtutils
-      kdePackages.qt6ct
-      # moved to home manager rofi-wayland # launcher
-      wl-clipboard
-      ## notifications
-      mako
-      #dunst
-      libnotify
-      ## Status bar
-      waybar
-      ### bar stuff
-      blueman
-      networkmanagerapplet
-      waybar-mpris
-      playerctl
-      syncthingtray
-      # entertainment
-      spotify
-      ## games
-      gamescope
-      duckstation
-      retroarchWithCores
-      cemu
-      ryujinx
-      pcsx2
-      freetube
       # security
       yubioath-flutter
     ];

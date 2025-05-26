@@ -7,7 +7,6 @@
     dbus.packages = [ pkgs.gcr ];
     # yubikey
     udev.packages = [ pkgs.yubikey-personalization ];
-    udev.extraRules = inputs.secrets.secrets.udev_rules;
     openssh = {
       enable = true;
       # require public key authentication for better security

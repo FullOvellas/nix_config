@@ -213,4 +213,28 @@
         };
       };
   };
+  home.packages = with pkgs; [
+    #hyprland
+    hyprpaper
+    grim # screenshots
+    slurp # screenshot region selector
+    swappy # screenshot edit
+    hypridle
+    hyprland-qtutils
+    kdePackages.qt6ct
+    # moved to home manager rofi-wayland # launcher
+    wl-clipboard
+    ## notifications
+    mako
+    #dunst
+    libnotify
+    ## Status bar
+    waybar
+    ### bar stuff
+    blueman
+    networkmanagerapplet
+    waybar-mpris
+    playerctl
+    syncthingtray
+  ];
 }

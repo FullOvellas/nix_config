@@ -1,3 +1,4 @@
+$env.EDITOR = "nvim"
 # Common ls aliases and sort them by type and then name
 # Inspired by https://github.com/nushell/nushell/issues/7190
 def lla [...args] { ls -la ...(if $args == [] {["."]} else {$args}) | sort-by type name -i }

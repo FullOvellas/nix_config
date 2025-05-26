@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
-    ./nvim
+    #./nvim/homebrew
+    ./nvim/nvf
   ];
 }
