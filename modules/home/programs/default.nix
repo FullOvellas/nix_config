@@ -11,7 +11,7 @@
     ./media.nix
     ./productivity.nix
     ./shells
-    ./terminal.nix
+    ./terminals
     ./utils.nix
   ];
 }
