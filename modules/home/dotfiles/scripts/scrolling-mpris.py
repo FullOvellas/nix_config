@@ -2,74 +2,137 @@ from collections.abc import Generator
 import subprocess
 import time
 import json
+import signal
+import sys
 
-# Customization settings (easy to modify)
-GLYPH_FONT_FAMILY="Symbols Nerd Font Mono" # Set to your desired symbols font
-# Those are glyphs that will be always visible at left side of module.
+# Customization settings
+GLYPH_FONT_FAMILY = "Symbols Nerd Font Mono"
 GLYPHS = {
     "paused": "",
     "playing": "",
     "stopped": ""
 }
-DEFAULT_GLYPH = ""  # Glyph when status is unknown or default
-TEXT_WHEN_STOPPED = "Nothing playing right now"  # Text to display when nothing is playing
-SCROLL_TEXT_LENGTH = 50  # Length of the song title part (excludes glyph and space)
-REFRESH_INTERVAL = 0.4  # How often the script updates (in seconds)
-PLAYERCTL_PATH = "/etc/profiles/per-user/fullovellas/bin/playerctl" # Path to playerctl, use which playerctl to find yours.
+DEFAULT_GLYPH = ""
+TEXT_WHEN_STOPPED = "Nothing playing right now"
+SCROLL_TEXT_LENGTH = 50
+REFRESH_INTERVAL = 0.4
+PLAYERCTL_BIN = "/etc/profiles/per-user/fullovellas/bin/playerctl"
+PLAYER_STATE_FILE = "/tmp/waybar_player_state.txt"
 
-# Function to get player status using playerctl
-def get_player_status():
+def get_available_players() -> list[str]:
     try:
-        result = subprocess.run([PLAYERCTL_PATH, 'status'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run([PLAYERCTL_BIN, '-l'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        players = result.stdout.decode('utf-8').strip().splitlines()
+        return players
+    except:
+        return []
+
+
+def get_current_player(players: list[str]) -> str:
+    try:
+        with open(PLAYER_STATE_FILE, "r") as f:
+            index = int(f.read().strip())
+            return players[index % len(players)]
+    except:
+        return players[0] if players else "spotify"
+
+
+def set_next_player(players: list[str]):
+    try:
+        with open(PLAYER_STATE_FILE, "r") as f:
+            index = int(f.read().strip()) + 1
+    except:
+        index = 1
+    with open(PLAYER_STATE_FILE, "w") as f:
+        _ = f.write(str(index % len(players)))
+
+
+should_switch_player = False
+should_toggle_play = False
+
+def handle_switch_signal(_signum, _frame):
+    global should_switch_player
+    should_switch_player = True
+
+def handle_toggle_signal(_signum, _frame):
+    global should_toggle_play
+    should_toggle_play = True
+
+# Register signal handlers
+_ = signal.signal(signal.SIGRTMIN + 10, handle_switch_signal)  # Right-click: switch player
+_ = signal.signal(signal.SIGRTMIN + 11, handle_toggle_signal)  # Left-click: toggle play/pause
+
+def get_player_status(player: str):
+    try:
+        result = subprocess.run([PLAYERCTL_BIN, '-p', player, 'status'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         status = result.stdout.decode('utf-8').strip().lower()
         if result.returncode != 0 or not status:
-            return "stopped"  # Default to stopped if no status
+            return "stopped"
         return status
-    except Exception as e:
-        print(e)
+    except:
         return "stopped"
 
-# Function to get currently playing song using playerctl
-def get_current_song():
+
+def get_current_song(player: str):
     try:
-        result = subprocess.run([PLAYERCTL_PATH, 'metadata', '--format', "󰎇 {{xesam:title}} 󰠃 {{xesam:artist}} 󰀥 {{xesam:album}}'''{{duration(position)}}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run([
+            PLAYERCTL_BIN, '-p', player, 'metadata',
+            '--format', "󰎇 {{xesam:title}} 󰠃 {{xesam:artist}} 󰀥 {{xesam:album}}'''{{duration(position)}}"
+        ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         song_title = result.stdout.decode('utf-8').strip()
         if result.returncode != 0 or not song_title:
-            return None  # Return None if no song is playing or an error occurred
+            return None
         return song_title
-    except Exception as e:
+    except:
         return None
 
-# Function to generate scrolling text with fixed length
-def scroll_text(text: str, length: int=SCROLL_TEXT_LENGTH) -> Generator[str]:
-    text = text.ljust(length)  # Ensure the text is padded to the desired length
-    scrolling_text = text + ' ' + text[:length]  # Add space and repeat start for scrolling effect
-    
+
+def scroll_text(text: str, length: int = SCROLL_TEXT_LENGTH) -> Generator[str, None, None]:
+    text = text.ljust(length)
+    scrolling_text = text + ' ' + text[:length]
     for i in range(len(scrolling_text) - length):
-        yield scrolling_text[i:i + length] # Use a generator to yield scrolling parts
+        yield scrolling_text[i:i + length]
+
 
 if __name__ == "__main__":
     scroll_generator = None
-    
+
     while True:
         output = {}
 
         try:
-            # Get the player status and song title
-            status = get_player_status()
-            song = get_current_song()
+            players = get_available_players()
+            if not players:
+                output['text'] = f"<span font_family='{GLYPH_FONT_FAMILY}'></span> No players"
+                print(json.dumps(output), end='\n')
+                time.sleep(REFRESH_INTERVAL)
+                continue
 
-            # Get the glyph based on player status
+            if should_switch_player:
+                set_next_player(players)
+                should_switch_player = False
+
+            player = get_current_player(players)
+
+            if should_toggle_play:
+                try:
+                    _ = subprocess.run([PLAYERCTL_BIN, '-p', player, 'play-pause'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                except Exception as e:
+                    pass  # Ignore errors silently or log if needed
+                should_toggle_play = False
+
+            status = get_player_status(player)
+            song = get_current_song(player)
+
             glyph = GLYPHS.get(status, DEFAULT_GLYPH)
 
             if song:
-                split_song = str(song).split("'''", 2);
+                split_song = str(song).split("'''", 1)
                 song = split_song[0]
-                song_position = split_song[1]
-                song_length = len(song)
-                if song_length > SCROLL_TEXT_LENGTH:  # Adjusted for fixed glyph space
+                song_position = split_song[1] if len(split_song) > 1 else ""
+                if len(song) > SCROLL_TEXT_LENGTH:
                     if scroll_generator is None:
-                        scroll_generator = scroll_text(song)  # Initialize the generator
+                        scroll_generator = scroll_text(song)
                     try:
                         scroll_part = next(scroll_generator)
                     except StopIteration:
@@ -80,16 +143,14 @@ if __name__ == "__main__":
                     song_text = song + ' ' + song_position
                     scroll_generator = None
             else:
-                song_text = TEXT_WHEN_STOPPED.ljust(len(TEXT_WHEN_STOPPED))  # Ensure fixed length when stopped
+                song_text = TEXT_WHEN_STOPPED.ljust(len(TEXT_WHEN_STOPPED))
 
-            # Combine glyph and song text with a fixed space
             output['text'] = f"<span font_family='{GLYPH_FONT_FAMILY}'>{glyph}</span> {song_text}"
 
         except Exception as e:
-            output['text'] = f" Error: {str(e)}".ljust(SCROLL_TEXT_LENGTH + 2)  # Show error with stop symbol
+            output['text'] = f"<span font_family='{GLYPH_FONT_FAMILY}'></span> Error: {str(e)}".ljust(SCROLL_TEXT_LENGTH + 2)
 
-        # Print the JSON-like output
         print(json.dumps(output), end='\n')
-
+        _ = sys.stdout.flush()
         time.sleep(REFRESH_INTERVAL)
 

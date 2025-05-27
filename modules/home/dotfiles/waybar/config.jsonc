@@ -71,7 +71,8 @@
     "exec": "python3 -u ~/.config/scripts/scrolling-mpris.py",
     "format": "{text}",
     "return-type": "json",
-    "on-click": "playerctl play-pause"
+    "on-click": "pkill -SIGRTMIN+11 -f scrolling-mpris.py",
+    "on-click-right": "pkill -SIGRTMIN+10 -f scrolling-mpris.py"
   },
   "custom/waybar-mpris": {
     "return-type": "json",
