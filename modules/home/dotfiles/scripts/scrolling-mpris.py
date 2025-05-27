@@ -1,7 +1,7 @@
+from collections.abc import Generator
 import subprocess
 import time
 import json
-import sys
 
 # Customization settings (easy to modify)
 GLYPH_FONT_FAMILY="Symbols Nerd Font Mono" # Set to your desired symbols font
@@ -15,7 +15,7 @@ DEFAULT_GLYPH = ""  # Glyph when status is unknown or default
 TEXT_WHEN_STOPPED = "Nothing playing right now"  # Text to display when nothing is playing
 SCROLL_TEXT_LENGTH = 50  # Length of the song title part (excludes glyph and space)
 REFRESH_INTERVAL = 0.4  # How often the script updates (in seconds)
-PLAYERCTL_PATH = "/run/current-system/sw/bin/playerctl" # Path to playerctl, use which playerctl to find yours.
+PLAYERCTL_PATH = "/etc/profiles/per-user/fullovellas/bin/playerctl" # Path to playerctl, use which playerctl to find yours.
 
 # Function to get player status using playerctl
 def get_player_status():
@@ -26,6 +26,7 @@ def get_player_status():
             return "stopped"  # Default to stopped if no status
         return status
     except Exception as e:
+        print(e)
         return "stopped"
 
 # Function to get currently playing song using playerctl
@@ -40,7 +41,7 @@ def get_current_song():
         return None
 
 # Function to generate scrolling text with fixed length
-def scroll_text(text, length=SCROLL_TEXT_LENGTH):
+def scroll_text(text: str, length: int=SCROLL_TEXT_LENGTH) -> Generator[str]:
     text = text.ljust(length)  # Ensure the text is padded to the desired length
     scrolling_text = text + ' ' + text[:length]  # Add space and repeat start for scrolling effect
     
