@@ -1,5 +1,5 @@
 {
-  "modules-left": ["hyprland/workspaces"],
+  "modules-left": ["memory", "disk", "hyprland/workspaces"],
   "modules-center": ["clock", "idle_inhibitor"],
   "modules-right": ["custom/mpris", "tray", "pulseaudio", "hyprland/language", "custom/power"],
   "hyprland/language": {
@@ -80,5 +80,12 @@
     "on-click": "waybar-mpris --send toggle",
     "on-click-right": "waybar-mpris --send player-next",
     "escape": true
+  },
+  "memory": {
+    "format": " {used}/{total}"
+  },
+  "disk": {
+    "path": "/",
+    "format": " {used}/{total}"
   }
 }
