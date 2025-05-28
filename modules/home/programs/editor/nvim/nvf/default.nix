@@ -8,12 +8,6 @@
     enable = true;
     settings = {
       vim = {
-        viAlias = true;
-        vimAlias = true;
-        lsp = {
-          enable = true;
-        };
-
         autocmds = [
           {
             desc = "Set indentation for Nix, Lua, JSON";
@@ -92,6 +86,11 @@
         autocomplete = {
           nvim-cmp = {
             enable = true;
+            format = lib.generators.mkLuaInline ''
+              function(entry, vim_item)
+                return vim_item
+              end
+            '';
           };
         };
 
@@ -111,8 +110,40 @@
           };
         };
 
+        extraPlugins = with pkgs.vimPlugins; {
+          neorg = {
+            package = neorg;
+            setup = ''
+              require("neorg").setup {
+                        load = {
+                          ["core.defaults"] = {},
+                          ["core.concealer"] = {},
+                          ["core.dirman"] = {
+                            config = {
+                              workspaces = {
+                                notes = "~/Documents/notes",
+                              },
+                              default_workspace = "notes",
+                            },
+                          },
+                        },
+                      }
+              vim.wo.foldlevel = 99
+              vim.wo.conceallevel = 2
+            '';
+          };
+          neorg-telescope = {
+            package = neorg-telescope;
+          };
+        };
+
         startPlugins = with pkgs.vimPlugins; [
           vim-tmux-navigator
+          (nvim-treesitter.withPlugins (
+            p: with p; [
+              tree-sitter-lua
+            ]
+          ))
         ];
 
         filetree = {
@@ -168,6 +199,16 @@
           python.enable = true;
         };
 
+        lsp = {
+          enable = true;
+          lspkind = {
+            enable = true;
+            setupOpts = {
+              mode = "symbol";
+            };
+          };
+        };
+
         statusline = {
           lualine = {
             enable = true;
@@ -196,6 +237,17 @@
           autotagHtml = true;
           fold = true;
         };
+
+        ui = {
+          borders.plugins.nvim-cmp.enable = true;
+        };
+
+        utility = {
+          surround.enable = true;
+        };
+
+        viAlias = true;
+        vimAlias = true;
 
         visuals = {
           nvim-web-devicons = {
