@@ -13,7 +13,8 @@
       # default shell
       set-option -g default-shell ${pkgs.nushell}/bin/nu
       # colors
-      set-option -sa terminal-overrides ",xterm*:Tc"
+      set -g default-terminal "tmux-256color"
+      set-option -ga terminal-overrides ",xterm-256color:Tc"
       # mouse support
       set-option -g mouse on
 
