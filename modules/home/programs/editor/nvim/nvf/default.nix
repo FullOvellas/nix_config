@@ -209,6 +209,13 @@
           };
         };
 
+        options = {
+          tabstop = 4;
+          expandtab = true;
+          shiftwidth = 4;
+          softtabstop = 4;
+        };
+
         statusline = {
           lualine = {
             enable = true;
