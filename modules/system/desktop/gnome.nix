@@ -1,18 +1,7 @@
 { pkgs, ... }:
 {
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-
-    desktopManager.gnome.enable = true;
-    displayManager.gdm.enable = true;
-
-    # Configure keymap in X11
-    xkb = {
-      layout = "us";
-      variant = "";
-    };
-  };
+  services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
 
   environment.gnome.excludePackages = (
     with pkgs;

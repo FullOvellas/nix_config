@@ -4,19 +4,21 @@
   ...
 }:
 {
+  imports = [ ./theme.nix ]; # Excluded in favor of stylix, kept as backup
   programs.nvf = {
     enable = true;
     settings = {
       vim = {
         autocmds = [
           {
-            desc = "Set indentation for Nix, Lua, JSON";
+            desc = "Set indentation for Nix, Lua, JSON, CSS";
             event = [ "Filetype" ];
             pattern = [
               "lua"
               "nix"
               "json"
               "jsonc"
+              "css"
             ];
             callback = lib.generators.mkLuaInline ''
               function()
@@ -197,6 +199,7 @@
           lua.enable = true;
           java.enable = true;
           python.enable = true;
+          nu.enable = true;
         };
 
         lsp = {
@@ -229,13 +232,6 @@
             gitStatus = "<leader>gst";
             liveGrep = "<leader>fg";
           };
-        };
-
-        theme = {
-          enable = true;
-          name = "gruvbox";
-          style = "dark";
-          transparent = true;
         };
 
         treesitter = {

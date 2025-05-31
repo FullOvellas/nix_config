@@ -46,6 +46,10 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -59,6 +63,7 @@
       systems,
       sops-nix,
       nvf,
+      stylix,
       ...
     }:
     let
@@ -81,6 +86,7 @@
           };
 
           modules = [
+            stylix.nixosModules.stylix
             ./configuration.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
