@@ -20,10 +20,6 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    rose-pine-hyprcursor = {
-      url = "github:ndom91/rose-pine-hyprcursor";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,14 +38,6 @@
     };
     treefmt-nix.url = "github:numtide/treefmt-nix";
     sops-nix.url = "github:Mic92/sops-nix";
-    alacritty-theme = {
-      url = "github:alacritty/alacritty-theme";
-      flake = false;
-    };
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nvf = {
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
