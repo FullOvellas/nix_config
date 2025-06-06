@@ -3,6 +3,7 @@
   imports = [
     ./theming.nix
     ./rofi/theme
+    ./wm
   ];
 
   programs = {
@@ -18,12 +19,9 @@
   };
 
   home.packages = with pkgs; [
-    #hyprland
-    hyprpaper
     grim # screenshots
     slurp # screenshot region selector
     swappy # screenshot edit
-    hypridle
     hyprland-qtutils
     kdePackages.qt6ct
     # moved to home manager rofi-wayland # launcher

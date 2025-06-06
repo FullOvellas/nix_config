@@ -172,9 +172,6 @@
                 };
               };
             };
-            mappings = {
-              toggle = "<leader>e";
-            };
           };
         };
 

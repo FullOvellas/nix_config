@@ -1,6 +1,14 @@
 {
   description = "FullOvellas's NixOS Flake";
 
+  nixConfig = {
+    extraSubstituters = [
+      "https://nix-community.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
@@ -49,6 +57,10 @@
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    schemes = {
+      url = "github:tinted-theming/schemes";
+      flake = false;
     };
   };
 

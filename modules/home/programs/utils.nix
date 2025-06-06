@@ -17,6 +17,7 @@
     glow # Command-line Markdown viewer
     ripgrep # recursively searches directories for a regex pattern
     nnn # terminal file manager
+    proton-pass
   ];
   programs.zoxide.enable = true;
 }
