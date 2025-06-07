@@ -50,6 +50,13 @@
       url = "github:tinted-theming/schemes";
       flake = false;
     };
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
   };
 
   outputs =
@@ -62,8 +69,8 @@
       self,
       systems,
       sops-nix,
-      nvf,
       stylix,
+      nix-on-droid,
       ...
     }:
     let
@@ -75,7 +82,7 @@
     in
     {
       nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem rec {
+        minis = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
             inherit inputs;
@@ -87,7 +94,7 @@
 
           modules = [
             stylix.nixosModules.stylix
-            ./configuration.nix
+            ./minis.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
@@ -103,6 +110,13 @@
             }
           ];
         };
+      };
+      nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs { system = "aarch64-linux"; };
+        modules = [
+          stylix.nixOnDroidModules.stylix
+          ./droid.nix
+        ];
       };
       # for `nix fmt`
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
