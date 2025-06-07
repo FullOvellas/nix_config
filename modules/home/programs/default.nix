@@ -13,5 +13,6 @@
     ./shells
     ./terminals
     ./utils.nix
+    ./tmux.nix
   ];
 }

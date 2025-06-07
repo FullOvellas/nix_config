@@ -9,9 +9,8 @@
       sensible
       yank
     ];
+    shell = "${pkgs.nushell}/bin/nu";
     extraConfig = ''
-      # default shell
-      set-option -g default-shell ${pkgs.nushell}/bin/nu
       # colors
       set -g default-terminal "tmux-256color"
       set-option -ga terminal-overrides ",xterm-256color:Tc"
