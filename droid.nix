@@ -1,10 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  modules = [
-    ./modules/system/programs/tmux.nix
-  ];
-
   environment.packages = with pkgs; [
   ];
 
@@ -27,6 +23,6 @@
     backupFileExtension = "hm-bak";
     useGlobalPkgs = true;
 
-    config = ./nix-on-droid/droid-home.nix;
+    config = ./nix-on-droid;
   };
 }
