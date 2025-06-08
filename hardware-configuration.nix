@@ -32,6 +32,11 @@
     fsType = "vfat";
   };
 
+  fileSystems."/home/fullovellas/stuff" = {
+    device = "dev/disk/by-uuid/61cbbff5-ec43-4737-9380-36230642cc7b";
+    fsType = "ext4";
+  };
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
