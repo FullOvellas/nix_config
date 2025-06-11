@@ -13,6 +13,7 @@
     ./shells
     ./terminals
     ./utils.nix
-    ./tmux.nix
+    ./tmux
+    ./zellij
   ];
 }

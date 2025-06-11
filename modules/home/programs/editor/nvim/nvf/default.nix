@@ -209,6 +209,8 @@
           };
         };
 
+        navigation.harpoon.enable = true;
+
         options = {
           tabstop = 4;
           expandtab = true;
