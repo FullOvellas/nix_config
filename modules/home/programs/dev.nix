@@ -1,5 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-stable, ... }:
 {
+  programs.lazydocker = {
+    enable = true;
+  };
+
   home.packages =
     with pkgs;
     let

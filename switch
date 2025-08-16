@@ -23,3 +23,5 @@ if which nom >/dev/null; then
 else
     run "$@"
 fi
+
+notify-send "System update done"

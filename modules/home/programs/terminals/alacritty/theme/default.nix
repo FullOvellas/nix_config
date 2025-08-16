@@ -36,6 +36,7 @@
           y = 1;
         };
         window.opacity = 0.85;
-      } // (builtins.fromTOML (builtins.readFile "${inputs.alacritty-theme}/themes/gruvbox_dark.toml"));
+      }
+      // (builtins.fromTOML (builtins.readFile "${inputs.alacritty-theme}/themes/gruvbox_dark.toml"));
     };
 }

@@ -72,17 +72,19 @@
 
       # Eval the treefmt modules from ./treefmt.nix
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+      system = "x86_64-linux";
+      pkgs-stable = import nixpkgs-stable {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in
     {
       nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
+        nixos = nixpkgs.lib.nixosSystem {
+          inherit system;
           specialArgs = {
             inherit inputs;
-            pkgs-stable = import nixpkgs-stable {
-              inherit system;
-              config.allowUnfree = true;
-            };
+            inherit pkgs-stable;
           };
 
           modules = [
@@ -96,7 +98,10 @@
               home-manager.useUserPackages = true;
               home-manager.users.fullovellas = (import ./home.nix);
               home-manager.backupFileExtension = "backup";
-              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                inherit pkgs-stable;
+              };
               home-manager.sharedModules = [
                 sops-nix.homeManagerModules.sops
               ];

@@ -113,6 +113,12 @@
         };
 
         extraPlugins = with pkgs.vimPlugins; {
+          csvview = {
+            package = csvview-nvim;
+            setup = ''
+              require('csvview').setup()
+            '';
+          };
           neorg = {
             package = neorg;
             setup = ''
@@ -128,6 +134,7 @@
                               default_workspace = "notes",
                             },
                           },
+                          --next
                         },
                       }
               vim.wo.foldlevel = 99

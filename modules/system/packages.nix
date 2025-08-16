@@ -30,7 +30,7 @@
       nix-output-monitor
       #rclone
       unzip
-      pkgs-stable.protonvpn-gui
+      protonvpn-gui
       # dev
       #vscodium
       ## Python

@@ -17,9 +17,8 @@ in
 {
   home.packages = with pkgs; [
     retroarchWithCores
-    duckstation
     cemu
-    ryujinx
+    ryubing
     pcsx2
   ];
 }

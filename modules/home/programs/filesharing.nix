@@ -1,7 +1,8 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    syncthing
+    # syncthing
     transmission_4
   ];
+  services.syncthing.enable = true;
 }

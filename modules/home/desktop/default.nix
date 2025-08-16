@@ -2,7 +2,6 @@
 {
   imports = [
     ./theming.nix
-    ./rofi/theme
     ./wm
   ];
 
@@ -12,10 +11,14 @@
       layout = builtins.fromJSON (builtins.readFile ./wlogout/layout.json);
       style = ./wlogout/style.css;
     };
-    rofi = {
+    wofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
     };
+  };
+
+  services.kdeconnect = {
+    enable = true;
+    indicator = true;
   };
 
   home.packages = with pkgs; [
@@ -24,7 +27,6 @@
     swappy # screenshot edit
     hyprland-qtutils
     kdePackages.qt6ct
-    # moved to home manager rofi-wayland # launcher
     wl-clipboard
     ## notifications
     mako
