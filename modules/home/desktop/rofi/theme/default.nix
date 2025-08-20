@@ -20,7 +20,7 @@ in
     };
 
     "element-icon" = {
-      size = mkLiteral "1.3em";
+      size = mkLiteral "1.35em";
       padding = mkLiteral "3px";
     };
 

@@ -3,7 +3,6 @@ let
   inherit (config.lib.formats.rasi) mkLiteral;
 in
 {
-  # imports = [ ./colors.nix ]; excluded in favor of stylix, kept as backup
   programs.rofi.theme = {
     "*" = {
       font = "JetBrainsMono NF 18";

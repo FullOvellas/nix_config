@@ -3,6 +3,7 @@
   imports = [
     ./theming.nix
     ./wm
+    ./rofi/theme
   ];
 
   programs = {
@@ -11,8 +12,9 @@
       layout = builtins.fromJSON (builtins.readFile ./wlogout/layout.json);
       style = ./wlogout/style.css;
     };
-    wofi = {
+    rofi = {
       enable = true;
+      package = pkgs.rofi-wayland;
     };
   };
 
