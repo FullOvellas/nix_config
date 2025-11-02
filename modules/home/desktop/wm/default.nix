@@ -42,8 +42,74 @@
       };
       # extraConfig = builtins.readFile ../../dotfiles/hyprland/hyprlock.conf;
     };
+    wlogout = {
+      enable = true;
+      layout = builtins.fromJSON (builtins.readFile ./wlogout/layout.json);
+      style = ./wlogout/style.css;
+    };
+    waybar.enable = false;
+    hyprpanel = {
+      enable = true;
+      settings = {
+        menus = {
+          media.displayTimeTooltip = true;
+          clock = {
+            time.military = true;
+            weather.enabled = false;
+          };
+        };
+        bar = {
+          workspaces = {
+            showWsIcons = true;
+            workspaceIconMap = {
+              "1" = "一";
+              "2" = "二";
+              "3" = "三";
+              "4" = "四";
+              "5" = "五";
+              "6" = "六";
+              "7" = "七";
+            };
+          };
+          layouts = {
+            "*" = {
+              left = [
+                "storage"
+                "ram"
+                "media"
+                "windowtitle"
+              ];
+              middle = [ "workspaces" ];
+              right = [
+                "network"
+                "volume"
+                "systray"
+                "hypridle"
+                "clock"
+                "notifications"
+              ];
+            };
+          };
+          clock.format = "%H:%M:%S";
+        };
+        launcher.autoDetectIcon = false;
+
+        theme = {
+          bar = {
+            transparent = true;
+            outer_spacing = "0.8em";
+          };
+
+          font = {
+            name = "JetBrainsMono Nerd Font Mono";
+            size = "14px";
+          };
+        };
+      };
+    };
   };
   services = {
+    mako.enable = false;
     hyprpaper = {
       enable = true;
       settings = {

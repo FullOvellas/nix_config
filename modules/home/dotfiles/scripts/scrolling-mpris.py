@@ -73,19 +73,46 @@ def get_player_status(player: str):
         return "stopped"
 
 
-def get_current_song(player: str):
+def get_current_song(player: str) -> str|None:
     try:
         result = subprocess.run([
             PLAYERCTL_BIN, '-p', player, 'metadata',
-            '--format', "󰎇 {{xesam:title}} 󰠃 {{xesam:artist}} 󰀥 {{xesam:album}}'''{{duration(position)}}"
+            '--format', "{{xesam:title}}|||{{xesam:artist}}|||{{xesam:album}}|||{{duration(position)}}"
         ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        song_title = result.stdout.decode('utf-8').strip()
-        if result.returncode != 0 or not song_title:
+        
+        if result.returncode != 0:
             return None
-        return song_title
+            
+        output = result.stdout.decode('utf-8').strip()
+        if not output:
+            return None
+        
+        # Split by our delimiter
+        parts = output.split("|||")
+        title = parts[0] if len(parts) > 0 else ""
+        artist = parts[1] if len(parts) > 1 else ""
+        album = parts[2] if len(parts) > 2 else ""
+        position = parts[3] if len(parts) > 3 else ""
+        
+        if not title:
+            return None
+        
+        # Build the song string conditionally
+        song_parts: list[str] = []
+        if artist or album:
+            song_parts.append(f"󰎇 {title}")
+        else:
+            song_parts.append(title)
+        
+        if artist:
+            song_parts.append(f"󰠃 {artist}")
+        if album:
+            song_parts.append(f"󰀥 {album}")
+        
+        song_text = " ".join(song_parts)
+        return f"{song_text}'''{position}"
     except:
         return None
-
 
 def scroll_text(text: str, length: int = SCROLL_TEXT_LENGTH) -> Generator[str, None, None]:
     text = text.ljust(length)

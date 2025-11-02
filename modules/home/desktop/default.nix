@@ -1,25 +1,15 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   imports = [
     ./theming.nix
     ./wm
-    ./rofi/theme
+    # ./rofi/theme
   ];
 
-  programs = {
-    wlogout = {
-      enable = true;
-      layout = builtins.fromJSON (builtins.readFile ./wlogout/layout.json);
-      style = ./wlogout/style.css;
-    };
-    rofi = {
-      enable = true;
-      package = pkgs.rofi-wayland;
-    };
-  };
-
+  gtk.enable = true;
+  qt.enable = true;
   services.kdeconnect = {
-    enable = true;
+    enable = false;
     indicator = true;
   };
 
@@ -30,12 +20,10 @@
     hyprland-qtutils
     kdePackages.qt6ct
     wl-clipboard
+    inputs.vicinae.packages.${system}.default
     ## notifications
-    mako
-    #dunst
     libnotify
     ## Status bar
-    waybar
     ### bar stuff
     blueman
     networkmanagerapplet
