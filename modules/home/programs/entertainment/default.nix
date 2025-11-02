@@ -17,8 +17,9 @@ in
 {
   home.packages = with pkgs; [
     retroarchWithCores
-    cemu
+    # cemu
     ryubing
-    pcsx2
+    # pcsx2
+    heroic
   ];
 }
