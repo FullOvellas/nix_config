@@ -2,7 +2,7 @@
   description = "FullOvellas's NixOS Flake";
 
   nixConfig = {
-    extraSubstituters = [
+    extra-substituters = [
       "https://nix-community.cachix.org"
     ];
     extra-trusted-public-keys = [
@@ -10,8 +10,8 @@
     ];
   };
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,14 +24,10 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    jujutsu = {
-      url = "github:jj-vcs/jj";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    starship-jj = {
-      url = "gitlab:lanastara_foss/starship-jj";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # jujutsu = {
+    #   url = "github:jj-vcs/jj";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     neorg-overlay = {
       url = "github:nvim-neorg/nixpkgs-neorg-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -50,6 +46,10 @@
       url = "github:tinted-theming/schemes";
       flake = false;
     };
+    vicinae = {
+      url = "github:vicinaehq/vicinae";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -64,6 +64,7 @@
       sops-nix,
       nvf,
       stylix,
+      vicinae,
       ...
     }:
     let
@@ -93,7 +94,10 @@
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
-              nixpkgs.overlays = [ neorg-overlay.overlays.default ];
+              nixpkgs.overlays = [
+                neorg-overlay.overlays.default
+
+              ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.fullovellas = (import ./home.nix);

@@ -16,33 +16,24 @@
     with pkgs;
     [
       # system tools
-      ethtool
       pciutils # lspci
       usbutils # lsusb
       nil
       git
-      inputs.jujutsu.packages.${system}.default
       wget
       curl
       bc # gnu calculator
       bat
-      inputs.starship-jj.packages.${system}.default
       nix-output-monitor
       #rclone
       unzip
-      protonvpn-gui
-      # dev
-      #vscodium
-      ## Python
-      python
+      pkgs-stable.protonvpn-gui
       ## java
-      #[use this if unstable breaks] inputs.pkgs-stable.jetbrains.idea-community
       temurin-bin-21
       jdk8
       jdt-language-server
       maven
       ## javascript
-      nodejs
       typescript-language-server
       ## lua
       lua-language-server

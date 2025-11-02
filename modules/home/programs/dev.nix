@@ -15,7 +15,7 @@
         vscodeExtensions = with vscodiumExtensions; [
         ];
       })
-      jetbrains.idea-community
-      insomnia
+      # pkgs-stable.jetbrains.idea-community # [use this if unstable breaks]
+      jetbrains.idea-community-bin
     ];
 }

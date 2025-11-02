@@ -11,6 +11,7 @@ run() {
     sudo nixos-rebuild \
         switch \
         --print-build-logs \
+        --accept-flake-config \
         --flake .# \
         "$@"
 }

@@ -1,8 +1,14 @@
 {
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    trusted-users = [
+      "root"
+      "fullovellas"
+    ];
+  };
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   environment.extraOutputsToInstall = [ "dev" ];

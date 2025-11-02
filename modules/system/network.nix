@@ -15,7 +15,15 @@
         "redis-node-5"
         "redis-node-6"
         "cvs"
+        "shard1"
+        "shard2"
+        "shard3"
+        "mongos"
+        "configsvr1"
+        "configsvr2"
+        "configsvr3"
       ];
+      "127.17.0.1" = [ "host.docker.internal" ];
     };
     # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     # Open ports in the firewall.
