@@ -102,6 +102,8 @@
           };
         };
 
+        binds.whichKey.enable = true;
+
         clipboard = {
           enable = true;
         };
@@ -112,13 +114,30 @@
           };
         };
 
+        debugger.nvim-dap = {
+          enable = true;
+          ui.enable = true;
+        };
+
         extraPlugins = with pkgs.vimPlugins; {
+          window-picker = {
+            package = nvim-window-picker;
+            setup = ''
+              require('window-picker').setup()
+            '';
+          };
           csvview = {
             package = csvview-nvim;
             setup = ''
               require('csvview').setup()
             '';
           };
+          # cursor-smear = with pkgs.vimPlugins; {
+          #   package = smear-cursor-nvim;
+          #   setup = ''
+          #     require("smear_cursor").setup()
+          #   '';
+          # };
           neorg = {
             package = neorg;
             setup = ''
@@ -183,30 +202,34 @@
         ];
 
         filetree = {
-          nvimTree = {
+          neo-tree = {
             enable = true;
-            setupOpts = {
-              actions = {
-                open_file = {
-                  eject = true;
-                  window_picker = {
-                    enable = true;
-                  };
-                };
-              };
-              git = {
-                enable = true;
-              };
-              renderer = {
-                highlight_git = true;
-                icons = {
-                  show = {
-                    git = true;
-                  };
-                };
-              };
-            };
+            setupOpts.git_status_async = true;
           };
+          # nvimTree = {
+          #   enable = true;
+          #   setupOpts = {
+          #     actions = {
+          #       open_file = {
+          #         eject = true;
+          #         window_picker = {
+          #           enable = true;
+          #         };
+          #       };
+          #     };
+          #     git = {
+          #       enable = true;
+          #     };
+          #     renderer = {
+          #       highlight_git = true;
+          #       icons = {
+          #         show = {
+          #           git = true;
+          #         };
+          #       };
+          #     };
+          #   };
+          # };
         };
 
         git = {
@@ -218,6 +241,12 @@
         };
 
         keymaps = [
+          {
+            key = "<leader>t";
+            mode = "n";
+            silent = true;
+            action = ":Neotree toggle<CR>";
+          }
         ];
 
         languages = {
