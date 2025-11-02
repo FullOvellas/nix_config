@@ -2,8 +2,12 @@
   programs = {
     git = {
       enable = true;
-      userName = "Sergio Alonso";
-      userEmail = "alo_se.r.g.io@proton.me";
+      settings = {
+        user = {
+          name = "Sergio Alonso";
+          email = "alo_se.r.g.io@proton.me";
+        };
+      };
     };
     lazygit.enable = true;
   };
