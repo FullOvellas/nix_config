@@ -18,6 +18,16 @@
     ripgrep # recursively searches directories for a regex pattern
     nnn # terminal file manager
     proton-pass
+    jq
   ];
-  programs.zoxide.enable = true;
+  programs = {
+    zoxide.enable = true;
+    superfile = {
+      settings = {
+        theme = "gruvbox-dark-hard";
+        transparent_background = true;
+      };
+      enable = true;
+    };
+  };
 }
