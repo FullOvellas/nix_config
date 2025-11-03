@@ -10,7 +10,7 @@
   qt.enable = true;
   services.kdeconnect = {
     enable = false;
-    indicator = true;
+    indicator = false;
   };
 
   home.packages = with pkgs; [
