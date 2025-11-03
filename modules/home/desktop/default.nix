@@ -21,6 +21,7 @@
     kdePackages.qt6ct
     wl-clipboard
     inputs.vicinae.packages.${system}.default
+    baobab
     ## notifications
     libnotify
     ## Status bar

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -83,6 +83,7 @@
               right = [
                 "network"
                 "volume"
+                "kbinput"
                 "systray"
                 "hypridle"
                 "clock"
@@ -91,18 +92,34 @@
             };
           };
           clock.format = "%H:%M:%S";
+          customModules.storage = {
+            leftClick = "baobab";
+          };
         };
         launcher.autoDetectIcon = false;
 
         theme = {
           bar = {
-            transparent = true;
+            transparent = false;
+            floating = true;
+            opacity = 90;
+            margin_top = "0.4em";
             outer_spacing = "0.8em";
+            buttons = {
+              background_opacity = 0;
+              background_hover_opacity = 70;
+              workspaces = {
+                occupied = lib.mkForce "#83a598";
+              };
+            };
+            media = {
+              truncation_size = 40;
+            };
           };
 
           font = {
             name = "JetBrainsMono Nerd Font Mono";
-            size = "14px";
+            size = "13.5px";
           };
         };
       };
