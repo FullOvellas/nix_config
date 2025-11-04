@@ -247,6 +247,12 @@
             silent = true;
             action = ":Neotree toggle<CR>";
           }
+          {
+            key = "<leader>tr";
+            mode = "n";
+            silent = true;
+            action = ":Neotree reveal<CR>";
+          }
         ];
 
         languages = {
