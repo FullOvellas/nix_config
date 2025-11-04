@@ -102,7 +102,7 @@
           bar = {
             transparent = false;
             floating = true;
-            opacity = 90;
+            opacity = 85;
             margin_top = "0.4em";
             outer_spacing = "0.8em";
             buttons = {

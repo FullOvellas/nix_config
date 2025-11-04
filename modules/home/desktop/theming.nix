@@ -27,7 +27,7 @@ let
         convert $(for i in colors/*; do echo "xc:$(cat $i)"; done) +append -resize 24x1! palette.png
 
         # Remap the source image using the 24-color palette
-        convert ${wallpaperSource} -quality 100 +dither -remap palette.png $out
+        convert ${wallpaperSource} -quality 100 -dither Riemersma -remap palette.png $out
       '';
 in
 {
