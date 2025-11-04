@@ -15,10 +15,10 @@
         general = {
           hide_cursor = true;
         };
-        # background = {
-        #   path = "screenshot";
-        #   blur_passes = 2;
-        # };
+        background = {
+          # path = "screenshot";
+          blur_passes = 2;
+        };
         label = [
           {
             text = "cmd[update:30000] echo \"$(date +'%H:%M')\"";
