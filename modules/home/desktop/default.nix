@@ -13,6 +13,23 @@
     indicator = false;
   };
 
+  services.vicinae = {
+    enable = true;
+    autoStart = true;
+    settings = {
+      faviconService = "twenty";
+      popToRootOnClose = false;
+      rootSearch.searchFiles = false;
+      theme.name = "gruvbox-dark";
+      font.size = 10.5;
+      window = {
+        csd = true;
+        opacity = 0.9;
+        rounding = 10;
+      };
+    };
+  };
+
   home.packages = with pkgs; [
     grim # screenshots
     slurp # screenshot region selector
@@ -20,7 +37,6 @@
     hyprland-qtutils
     kdePackages.qt6ct
     wl-clipboard
-    inputs.vicinae.packages.${system}.default
     baobab
     ## notifications
     libnotify

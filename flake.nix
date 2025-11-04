@@ -4,9 +4,11 @@
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
+      "https://vicinae.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
     ];
   };
   inputs = {
@@ -48,7 +50,6 @@
     };
     vicinae = {
       url = "github:vicinaehq/vicinae";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -96,7 +97,6 @@
             {
               nixpkgs.overlays = [
                 neorg-overlay.overlays.default
-
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -108,6 +108,7 @@
               };
               home-manager.sharedModules = [
                 sops-nix.homeManagerModules.sops
+                vicinae.homeManagerModules.default
               ];
             }
           ];
