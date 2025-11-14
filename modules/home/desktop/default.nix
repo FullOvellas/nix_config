@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 {
   imports = [
     ./theming.nix
@@ -12,6 +17,8 @@
     enable = false;
     indicator = false;
   };
+
+  programs.rofi.enable = false;
 
   services.vicinae = {
     enable = true;
@@ -29,6 +36,7 @@
       };
     };
   };
+  xdg.configFile."vicinae/vicinae.json".force = lib.mkForce true;
 
   home.packages = with pkgs; [
     grim # screenshots
