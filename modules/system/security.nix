@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   programs = {
     gnupg.agent = {
@@ -25,5 +25,19 @@
         u2fAuth = true;
       };
     };
+  };
+
+  systemd.services.add-work-cert = {
+    description = "Add work certificate to system trust store";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "sops-nix.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      ${pkgs.coreutils}/bin/cp ${config.sops.secrets.work-cert.path} /etc/ssl/certs/work-cert.crt
+      ${pkgs.coreutils}/bin/chmod 644 /etc/ssl/certs/work-cert.crt
+    '';
   };
 }

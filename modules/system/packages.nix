@@ -30,13 +30,10 @@
       pkgs-stable.protonvpn-gui
       ## java
       temurin-bin-21
-      jdk8
       jdt-language-server
       maven
       ## javascript
-      typescript-language-server
       ## lua
-      lua-language-server
       gcc
       llvmPackages.bintools
       ## rust

@@ -16,6 +16,6 @@
         ];
       })
       # pkgs-stable.jetbrains.idea-community # [use this if unstable breaks]
-      jetbrains.idea-community-bin
+      jetbrains.idea-oss
     ];
 }

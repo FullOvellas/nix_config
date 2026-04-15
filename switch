@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-sudo -v
+doas true
 
 nix fmt
 
 git --no-pager diff
 
 run() {
-    sudo nixos-rebuild \
+    doas nixos-rebuild \
         switch \
         --print-build-logs \
         --accept-flake-config \
@@ -25,4 +25,4 @@ else
     run "$@"
 fi
 
-notify-send "System update done"
+notify-send "System update done" || true

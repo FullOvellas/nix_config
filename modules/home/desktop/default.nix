@@ -1,6 +1,5 @@
 {
   pkgs,
-  inputs,
   lib,
   ...
 }:
@@ -8,6 +7,7 @@
   imports = [
     ./theming.nix
     ./wm
+    ./shell
     # ./rofi/theme
   ];
 
@@ -21,23 +21,21 @@
   programs.rofi.enable = false;
 
   services.vicinae = {
+    systemd.enable = true;
     enable = true;
-    autoStart = true;
     settings = {
       faviconService = "twenty";
       popToRootOnClose = false;
       rootSearch.searchFiles = false;
-      theme.name = "gruvbox-dark";
+      # theme.name = "gruvbox-dark";
       font.size = 10.5;
       window = {
         csd = true;
-        opacity = 0.9;
+        opacity = lib.mkForce 0.9;
         rounding = 10;
       };
     };
   };
-  xdg.configFile."vicinae/vicinae.json".force = lib.mkForce true;
-
   home.packages = with pkgs; [
     grim # screenshots
     slurp # screenshot region selector
@@ -52,7 +50,6 @@
     ### bar stuff
     blueman
     networkmanagerapplet
-    waybar-mpris
     playerctl
     syncthingtray
   ];

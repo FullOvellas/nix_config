@@ -46,7 +46,7 @@ local function setup_lsps(lspconfig, cmp)
     }),
     sources = cmp.config.sources({
       { name = "nil" },
-      { name = "neorg" },
+      -- { name = "neorg" },
       { name = 'nvim_lsp' },
       { name = 'vsnip' }, -- For vsnip users.
       -- { name = 'luasnip' }, -- For luasnip users.
@@ -296,32 +296,32 @@ local function insert_date_time()
   vim.api.nvim_put({date}, 'c', true, true)
 end
 
-vim.api.nvim_create_autocmd("Filetype", {
-  pattern = "norg",
-  callback = function()
-    vim.keymap.set("n", "<Leader>td", "<Plug>(neorg.qol.todo-items.todo.task-done)", { buffer = true })
-    vim.keymap.set("n", "<Leader>tu", "<Plug>(neorg.qol.todo-items.todo.task-undone)", { buffer = true })
-    vim.keymap.set("n", "<Leader>tp", "<Plug>(neorg.qol.todo-items.todo.task-pending)", { buffer = true })
-    vim.keymap.set("n", "<Leader>th", "<Plug>(neorg.qol.todo-items.todo.task-on_hold)", { buffer = true })
-    vim.keymap.set("n", "<Leader>tc", "<Plug>(neorg.qol.todo-items.todo.task-cancelled)", { buffer = true })
-    vim.keymap.set("n", "<Leader>tr", "<Plug>(neorg.qol.todo-items.todo.task-recurring)", { buffer = true })
-    vim.keymap.set("n", "<Leader>ti", "<Plug>(neorg.qol.todo-items.todo.task-important)", { buffer = true })
-    vim.keymap.set("n", "<,", "<Plug>(neorg.promo.demote)", { buffer = true }) -- demote non recursively
-    vim.keymap.set("n", "<<", "<Plug>(neorg.promo.demote.nested)", { buffer = true }) -- demote recursively
-    vim.keymap.set("n", ">.", "<Plug>(neorg.promo.promote)", { buffer = true }) -- promote non recursively
-    vim.keymap.set("n", ">>", "<Plug>(neorg.promo.promote.nested)", { buffer = true }) -- promote recursively
-    vim.keymap.set("n", "<Leader>id", "<Plug>(neorg.tempus.insert-date)", { buffer = true }) -- insert date reference
-    vim.keymap.set("n", "<Leader>in", function ()
-      insert_date_time()
-    end, { buffer = true }) -- insert current date literal
-    vim.keymap.set("n", "<CR>", "<Plug>(neorg.esupports.hop.hop-link)", { buffer = true }) -- follow link
-    vim.keymap.set("n", "<Leader>nn", "<Plug>(neorg.dirman.new-note)", { buffer = true }) -- new note
-    vim.keymap.set("n", "<Leader>r", function ()
-      render_elapsed()
-    end,
-      { buffer = true })
-  end,
-})
+-- vim.api.nvim_create_autocmd("Filetype", {
+--   pattern = "norg",
+--   callback = function()
+--     vim.keymap.set("n", "<Leader>td", "<Plug>(neorg.qol.todo-items.todo.task-done)", { buffer = true })
+--     vim.keymap.set("n", "<Leader>tu", "<Plug>(neorg.qol.todo-items.todo.task-undone)", { buffer = true })
+--     vim.keymap.set("n", "<Leader>tp", "<Plug>(neorg.qol.todo-items.todo.task-pending)", { buffer = true })
+--     vim.keymap.set("n", "<Leader>th", "<Plug>(neorg.qol.todo-items.todo.task-on_hold)", { buffer = true })
+--     vim.keymap.set("n", "<Leader>tc", "<Plug>(neorg.qol.todo-items.todo.task-cancelled)", { buffer = true })
+--     vim.keymap.set("n", "<Leader>tr", "<Plug>(neorg.qol.todo-items.todo.task-recurring)", { buffer = true })
+--     vim.keymap.set("n", "<Leader>ti", "<Plug>(neorg.qol.todo-items.todo.task-important)", { buffer = true })
+--     vim.keymap.set("n", "<,", "<Plug>(neorg.promo.demote)", { buffer = true }) -- demote non recursively
+--     vim.keymap.set("n", "<<", "<Plug>(neorg.promo.demote.nested)", { buffer = true }) -- demote recursively
+--     vim.keymap.set("n", ">.", "<Plug>(neorg.promo.promote)", { buffer = true }) -- promote non recursively
+--     vim.keymap.set("n", ">>", "<Plug>(neorg.promo.promote.nested)", { buffer = true }) -- promote recursively
+--     vim.keymap.set("n", "<Leader>id", "<Plug>(neorg.tempus.insert-date)", { buffer = true }) -- insert date reference
+--     vim.keymap.set("n", "<Leader>in", function ()
+--       insert_date_time()
+--     end, { buffer = true }) -- insert current date literal
+--     vim.keymap.set("n", "<CR>", "<Plug>(neorg.esupports.hop.hop-link)", { buffer = true }) -- follow link
+--     vim.keymap.set("n", "<Leader>nn", "<Plug>(neorg.dirman.new-note)", { buffer = true }) -- new note
+--     vim.keymap.set("n", "<Leader>r", function ()
+--       render_elapsed()
+--     end,
+--       { buffer = true })
+--   end,
+-- })
 
 local timers = {}
 local function start_timer_for_buf(bufnr)

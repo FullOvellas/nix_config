@@ -5,4 +5,5 @@
     localNetworkGameTransfers.openFirewall = true;
     gamescopeSession.enable = true;
   };
+
 }

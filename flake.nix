@@ -30,14 +30,14 @@
     #   url = "github:jj-vcs/jj";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
-    neorg-overlay = {
-      url = "github:nvim-neorg/nixpkgs-neorg-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # neorg-overlay = {
+    #   url = "github:nvim-neorg/nixpkgs-neorg-overlay";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     treefmt-nix.url = "github:numtide/treefmt-nix";
     sops-nix.url = "github:Mic92/sops-nix";
     nvf = {
-      url = "github:notashelf/nvf";
+      url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
@@ -51,6 +51,30 @@
     vicinae = {
       url = "github:vicinaehq/vicinae";
     };
+    dgop = {
+      url = "github:AvengeMedia/dgop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    dankMaterialShell = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    dms-plugin-registry = {
+      url = "github:AvengeMedia/dms-plugin-registry";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    mjt = {
+      url = "github:FullOvellas/mjt";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # niri = {
+    #   url = "github:sodiboo/niri-flake";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    # caelestia-shell = {
+    #   url = "github:caelestia-dots/shell";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
@@ -58,7 +82,7 @@
       nixpkgs,
       nixpkgs-stable,
       home-manager,
-      neorg-overlay,
+      # neorg-overlay,
       treefmt-nix,
       self,
       systems,
@@ -66,6 +90,12 @@
       nvf,
       stylix,
       vicinae,
+      dgop,
+      dankMaterialShell,
+      dms-plugin-registry,
+      mjt,
+      # niri,
+      # caelestia-shell,
       ...
     }:
     let
@@ -95,9 +125,9 @@
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
-              nixpkgs.overlays = [
-                neorg-overlay.overlays.default
-              ];
+              # nixpkgs.overlays = [
+              #   neorg-overlay.overlays.default
+              # ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.fullovellas = (import ./home.nix);
@@ -105,10 +135,15 @@
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 inherit pkgs-stable;
+                inherit system;
               };
               home-manager.sharedModules = [
                 sops-nix.homeManagerModules.sops
                 vicinae.homeManagerModules.default
+                dankMaterialShell.homeModules.dank-material-shell
+                # dankMaterialShell.homeModules.dankMaterialShell.niri
+                # niri.homeModules.niri
+                # caelestia-shell.homeManagerModules.default
               ];
             }
           ];

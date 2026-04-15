@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  inputs,
+  system,
+  ...
+}:
 {
   home.packages = with pkgs; [
     # (de)compression
@@ -19,6 +24,7 @@
     nnn # terminal file manager
     proton-pass
     jq
+    inputs.mjt.packages.${system}.default
   ];
   programs = {
     zoxide.enable = true;

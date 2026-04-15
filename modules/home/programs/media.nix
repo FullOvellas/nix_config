@@ -5,8 +5,5 @@
     obs-studio
     spotify
     kew # terminal music player
-    freetube
-    # downloads
-    ytdownloader
   ];
 }

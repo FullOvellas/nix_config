@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   networking = {
     # Enable networking
@@ -25,11 +26,14 @@
       ];
       "127.17.0.1" = [ "host.docker.internal" ];
     };
+    # wg-quick.interfaces = {
+    #   wg0.configFile = config.sops.secrets.wireguard-ptn-vpn-1-config.path;
+    # };
     # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     # Open ports in the firewall.
     # firewall = {
-    #   allowedTCPPorts = [ 8096 32400 ];
-    #   allowedUDPPorts = [ 8096 32400 ];
+    #   allowedTCPPorts = [ 53317 ];
+    #   allowedUDPPorts = [ 53317 ];
     # Or disable the firewall altogether.
     #   enable = false;
     # };

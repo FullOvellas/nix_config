@@ -12,6 +12,8 @@
       yubikey_udev_rule = {
         path = "/run/udev/rules.d/99-yubi.rules";
       };
+      work-cert = { };
+      wireguard-ptn-vpn-1-config = { };
     };
   };
   imports = [

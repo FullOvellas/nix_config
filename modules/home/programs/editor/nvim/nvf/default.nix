@@ -4,14 +4,15 @@
   ...
 }:
 {
-  imports = [ ./theme.nix ]; # Excluded in favor of stylix, kept as backup
+  imports = [ ./theme.nix ];
   programs.nvf = {
     enable = true;
     settings = {
       vim = {
+        extraPackages = [ pkgs.imagemagick ];
         autocmds = [
           {
-            desc = "Set indentation for Nix, Lua, JSON, CSS";
+            desc = "Set indentation for Nix, Lua, JSON, CSS, JS";
             event = [ "Filetype" ];
             pattern = [
               "lua"
@@ -19,6 +20,14 @@
               "json"
               "jsonc"
               "css"
+              "javascript"
+              "javascriptreact"
+              "typescript"
+              "typescriptreact"
+              "js"
+              "jsx"
+              "ts"
+              "tsx"
             ];
             callback = lib.generators.mkLuaInline ''
               function()
@@ -138,31 +147,31 @@
           #     require("smear_cursor").setup()
           #   '';
           # };
-          neorg = {
-            package = neorg;
-            setup = ''
-              require("neorg").setup {
-                        load = {
-                          ["core.defaults"] = {},
-                          ["core.concealer"] = {},
-                          ["core.dirman"] = {
-                            config = {
-                              workspaces = {
-                                notes = "~/Documents/notes",
-                              },
-                              default_workspace = "notes",
-                            },
-                          },
-                          --next
-                        },
-                      }
-              vim.wo.foldlevel = 99
-              vim.wo.conceallevel = 2
-            '';
-          };
-          neorg-telescope = {
-            package = neorg-telescope;
-          };
+          # neorg = {
+          #   package = neorg;
+          #   setup = ''
+          #     require("neorg").setup {
+          #               load = {
+          #                 ["core.defaults"] = {},
+          #                 ["core.concealer"] = {},
+          #                 ["core.dirman"] = {
+          #                   config = {
+          #                     workspaces = {
+          #                       notes = "~/Documents/notes",
+          #                     },
+          #                     default_workspace = "notes",
+          #                   },
+          #                 },
+          #                 --next
+          #               },
+          #             }
+          #     vim.wo.foldlevel = 99
+          #     vim.wo.conceallevel = 2
+          #   '';
+          # };
+          # neorg-telescope = {
+          #   package = neorg-telescope;
+          # };
           smart-splits = {
             package = smart-splits-nvim;
             setup = ''
@@ -260,22 +269,58 @@
           enableTreesitter = true;
           rust.enable = true;
           nix.enable = true;
-          clang.enable = true;
+          clang = {
+            enable = true;
+            lsp.enable = true;
+          };
           markdown.enable = true;
           lua.enable = true;
           java.enable = true;
           python.enable = true;
           nu.enable = true;
+          json = {
+            enable = true;
+            format.enable = true;
+            lsp.enable = true;
+          };
+          ts = {
+            enable = true;
+            format.enable = true;
+            lsp.enable = true;
+            extraDiagnostics.enable = true;
+            extensions.ts-error-translator.enable = true;
+          };
+          css = {
+            enable = true;
+            format.enable = true;
+            lsp.enable = true;
+          };
         };
 
         lsp = {
           enable = true;
+          servers = {
+            elp = {
+              cmd = [
+                "${pkgs.erlang-language-platform}/bin/elp"
+                "server"
+              ];
+              filetypes = [ "erlang" ];
+              root_markers = [
+                "rebar.config"
+                "rebar3"
+                "erlankg.mk"
+                ".git"
+              ];
+            };
+          };
           lspkind = {
             enable = true;
             setupOpts = {
               mode = "symbol";
             };
           };
+          inlayHints.enable = true;
         };
 
         navigation.harpoon.enable = true;
@@ -301,7 +346,6 @@
           enable = true;
           addDefaultGrammars = true;
           autotagHtml = true;
-          fold = true;
         };
 
         ui = {
@@ -310,6 +354,17 @@
 
         utility = {
           surround.enable = true;
+          images.image-nvim = {
+            enable = true;
+            setupOpts.backend = "sixel";
+          };
+          leetcode-nvim = {
+            enable = true;
+            setupOpts = {
+              image_support = true;
+              lang = "erlang";
+            };
+          };
         };
 
         viAlias = true;
